@@ -121,6 +121,7 @@ define('LIQUID_TOKENIZATION_REGEXP', '/('.LIQUID_TAG_START.'.*?'.LIQUID_TAG_END.
 
 
 require_once('lib/support.php');
+require_once('lib/tag.php');
 require_once('lib/block.php');
 require_once('lib/context.php');
 require_once('lib/document.php');
@@ -130,7 +131,6 @@ require_once('lib/filterbank.php');
 require_once('lib/htmltags.php');
 require_once('lib/standardfilters.php');
 require_once('lib/standardtags.php');
-require_once('lib/tag.php');
 require_once('lib/template.php');
 require_once('lib/variable.php');
 

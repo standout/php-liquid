@@ -10,10 +10,6 @@
  *
  */
 
-/**
- * extends tag
- */
-require_once('tag.php');
 
 /**
  * Base class for blocks.
