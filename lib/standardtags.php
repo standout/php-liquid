@@ -654,6 +654,109 @@ class IfLiquidTag extends LiquidDecisionBlock {
 }
 
 /**
+ * An unless statement
+ * 
+ * @example
+ * {% unless true %} NO {% else %} YES {% endunless %}
+ * 
+ * will return:
+ * YES
+ *
+ * @package Liquid
+ */
+class UnlessLiquidTag extends LiquidDecisionBlock {
+	
+	/**
+	 * Nodes to render when condition is true
+	 *
+	 * @var array
+	 */
+	var $nodelist_true;
+	
+	/**
+	 * Nodes to render when condition is false
+	 *
+	 * @var array
+	 */
+	var $nodelist_false;
+	
+	/**
+	 * Operator for comparison
+	 *
+	 * @var string
+	 */
+	var $operator;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string $markup
+	 * @param array $tokens
+	 * @param LiquidFileSystem $file_system
+	 * @return UnlessLiquidTag
+	 */
+	function UnlessLiquidTag($markup, & $tokens, & $file_system) {
+		$regex = new LiquidRegexp('/('.LIQUID_QUOTED_FRAGMENT.')\s*([=!<>]+)?\s*('.LIQUID_QUOTED_FRAGMENT.')?/');
+		
+		$this->nodelist_true = & $this->nodelist;
+		$this->nodelist = array();
+		
+		$this->nodelist_false = array();
+		
+		parent::LiquidTag($markup, $tokens, $file_system);
+		
+		if ($regex->match($markup)) {
+			$this->left = $regex->matches[1];
+			$this->operator = $regex->matches[2];
+			$this->right = $regex->matches[3];
+			
+		} else {
+			trigger_error("Syntax Error in tag 'unless' - Valid syntax: unless [condition]", E_USER_ERROR);
+			
+		}
+		
+	}
+	
+	/**
+	 * Handler for unknown tags, handle else tags
+	 *
+	 * @param string $tag
+	 * @param array $params
+	 * @param array $tokens
+	 */
+	function unknown_tag($tag, $params, $tokens) {
+		if ($tag == 'else') {
+			$this->nodelist = & $this->nodelist_false;
+			$this->nodelist_false = array();
+		} else {
+			parent::unknown_tag($tag, $params, $tokens);
+		}
+		
+	}
+	
+	/**
+	 * Render the tag
+	 *
+	 * @param LiquidContext $context
+	 */
+	function render(& $context) {
+		$context->push();
+		
+		if ($this->interpret_condition($this->left, $this->right, $this->operator, $context)) {
+			$result = $this->render_all($this->nodelist_false, $context);
+		} else {
+			$result = $this->render_all($this->nodelist_true, $context);
+		}
+		
+		$context->pop();
+		
+		return $result;
+	}
+	
+}
+
+
+/**
  * A switch statememt
  * 
  * @example
