@@ -72,7 +72,7 @@ class LiquidLocalFileSystem extends LiquidBlankFileSystem {
 		$full_path = $this->full_path($template_path);
 		
 		if ($full_path) {
-			file_get_contents($full_path);
+			return file_get_contents($full_path);
 		} else {
 			trigger_error("No such template '$template_path'", E_USER_ERROR);
 			return false;
@@ -101,14 +101,8 @@ class LiquidLocalFileSystem extends LiquidBlankFileSystem {
 			$full_path = $this->root."_".$template_path.".liquid";
 			
 		}
-		
-		$root_regex = new LiquidRegexp(realpath($root));
-		
-		if (!$root_regex->match(realpath($full_path))) {
-			trigger_error("Illegal template path '".realpath($full_path)."'", E_USER_ERROR);
-		} else {
-			return $full_path;
-		}
+
+		return $full_path;
 		
 	}
 	
