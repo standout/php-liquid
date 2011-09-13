@@ -101,28 +101,28 @@ class LiquidContext {
 	}	
 	
 	/**
-	 * Push new local scope on the stack.
+	 * Deprecated: Push new local scope on the stack.
 	 *
 	 * @return bool
 	 */
 	function push() {
-		array_unshift($this->assigns, array());
+		# array_unshift($this->assigns, array());
 		return true;
 		
 	}
 	
 	/**
-	 * Pops the current scope from the stack.
+	 * Deprecated: Pops the current scope from the stack.
 	 *
 	 * @return bool
 	 */
 	function pop() {
-		if (count($this->assigns) == 1) {
-			trigger_error('No elements to pop', E_USER_ERROR);
-			return false;	
-		}
-		
-		array_shift($this->assigns);
+	  return true;
+    // if (count($this->assigns) == 1) {
+    //  trigger_error('No elements to pop', E_USER_ERROR);
+    //  return false; 
+    // }
+	#	array_shift($this->assigns);
 	}
 	
 	/**
