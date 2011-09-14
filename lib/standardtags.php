@@ -506,7 +506,7 @@ class LiquidDecisionBlock extends LiquidBlock {
 		// special rules for null values
 		if (is_null($left) || is_null($right)) {
 			// null == null returns true
-			if ($op == '==') {
+			if ($op == '==' && is_null($left) && is_null($right)) {
 				return true;
 			}
 			
