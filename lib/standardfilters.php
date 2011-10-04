@@ -183,6 +183,15 @@ class LiquidStandardFilters {
 		
 	}
 	
+	function times($input, $multiplier)
+	{
+	  return $input * $multiplier;
+	}
+	
+	function divided_by($input, $divider) {
+	  return $input / $divider;
+	}
+	
 }
 
 ?>
