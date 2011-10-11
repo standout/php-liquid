@@ -191,7 +191,11 @@ class LiquidStandardFilters {
 	function divided_by($input, $divider) {
 	  return $input / $divider;
 	}
-	
+
+	function random($input, $limit = 1) {
+		shuffle($input);
+		return array_slice($input, 0, $limit);
+	}
 }
 
 ?>
